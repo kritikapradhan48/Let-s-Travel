@@ -3,15 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallet</title>
+    <title>Travel Wallet</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a73e8, #00a2ff);
+            color: #fff;
+        }
+
+        /* Wallet Container */
+        .wallet-container {
+            background: #ffffff;
+            color: #333;
+            padding: 20px;
+            width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .wallet-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Header */
+        .wallet-container h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #1a73e8;
+        }
+
+        /* Balance Display */
+        .balance-display {
+            background: #1a73e8;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons */
+        .wallet-btn {
+            background: #1a73e8;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .wallet-btn:hover {
+            background: #00a2ff;
+        }
+
+        /* Extra Styling for Alerts */
+        .message {
+            color: #1a73e8;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Wallet</h2>
-    <p>Balance: <span id="walletBalance">0.00</span></p>
+    <div class="wallet-container">
+        <h2>My Wallet</h2>
+        <div class="balance-display">Balance: $<span id="walletBalance">0.00</span></div>
 
-    <button onclick="checkBalance()">Check Balance</button>
-    <button onclick="addFunds()">Add Funds</button>
-    <button onclick="useFunds()">Use Funds</button>
+        <button class="wallet-btn" onclick="checkBalance()">Check Balance</button>
+        <button class="wallet-btn" onclick="addFunds()">Add Funds</button>
+        <button class="wallet-btn" onclick="useFunds()">Use Funds</button>
+
+        <p id="message" class="message"></p>
+    </div>
 
     <script>
         const userId = 1; // Assume logged-in user ID
@@ -21,8 +103,9 @@
             const data = await response.json();
             if (data.wallet_balance !== undefined) {
                 document.getElementById("walletBalance").textContent = data.wallet_balance.toFixed(2);
+                document.getElementById("message").textContent = "Balance checked successfully!";
             } else {
-                alert(data.error);
+                document.getElementById("message").textContent = data.error;
             }
         }
 
@@ -34,7 +117,7 @@
                 body: JSON.stringify({ user_id: userId, amount: parseFloat(amount) })
             });
             const data = await response.json();
-            alert(data.message);
+            document.getElementById("message").textContent = data.message;
             checkBalance();
         }
 
@@ -46,7 +129,7 @@
                 body: JSON.stringify({ user_id: userId, amount: parseFloat(amount) })
             });
             const data = await response.json();
-            alert(data.message);
+            document.getElementById("message").textContent = data.message;
             checkBalance();
         }
     </script>
