@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel - Saved Items</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #FF7E5F, #FEB47B);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Container for items */
+        .item-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-width: 1000px;
+        }
+
+        /* Item Card */
+        .item {
+            background: #ffffff;
+            width: 220px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Item Image */
+        .item img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        /* Item Description */
+        .item-details {
+            padding: 15px;
+            color: #333;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #FF7E5F;
+        }
+
+        /* Save and Remove Buttons */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .save-btn, .remove-btn {
+            background: #FF7E5F;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 14px;
+        }
+
+        .save-btn:hover {
+            background: #FEB47B;
+        }
+
+        .remove-btn {
+            background: #ff4f4f;
+        }
+
+        .remove-btn:hover {
+            background: #ff7878;
+        }
+    </style>
+</head>
+<body>
+    <h2>My Saved Travel Items</h2>
+
+    <!-- Container for dynamically loaded items -->
+    <div class="item-container" id="savedItemsContainer"></div>
+
+    <script>
+        const userId = 1;  // Assume logged-in user ID
+
+        // Sample item data for demo
+        const sampleData = [
+            { item_type: 'Destination', item_id: 101, image_url: 'https://via.placeholder.com/220x130?text=Beach' },
+            { item_type: 'Hotel', item_id: 202, image_url: 'https://via.placeholder.com/220x130?text=Hotel' },
+            { item_type: 'Activity', item_id: 303, image_url: 'https://via.placeholder.com/220x130?text=Safari' }
+        ];
+
+        // Load saved items initially
+        function loadSampleData() {
+            const container = document.getElementById("savedItemsContainer");
+            container.innerHTML = "";
+
+            sampleData.forEach(item => {
+                const itemDiv = document.createElement("div");
+                itemDiv.classList.add("item");
+                itemDiv.innerHTML = `
+                    <img src="${item.image_url}" alt="${item.item_type}">
+                    <div class="item-details">
+                        <div class="item-title">${item.item_type}</div>
+                        <div>Item ID: ${item.item_id}</div>
+                        <div class="button-group">
+                            <button class="save-btn" onclick="saveItem('${item.item_type}', ${item.item_id})">Save</button>
+                            <button class="remove-btn" onclick="removeItem(${item.item_id})">Remove</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        // Save an item (just a placeholder function)
+        function saveItem(itemType, itemId) {
+            alert(`${itemType} with ID ${itemId} has been saved!`);
+        }
+
+        // Remove an item (just a placeholder function)
+        function removeItem(itemId) {
+            alert(`Item with ID ${itemId} has been removed!`);
+            loadSampleData();
+        }
+
+        // Load the sample data on page load
+        window.onload = loadSampleData;
+    </script>
+</body>
+</html>
