@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Your world with HORIZONK</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #f3f3f3;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: #FF7E5F;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
+        .navbar h1 {
+            font-size: 24px;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQz_jhjvMJOxFk8eEU7fg0M7u9QTE-_4pIsKg&s') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 15px;
+            background: #FF7E5F;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Popular Destinations Section */
+        .popular-section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .popular-section h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #FF7E5F;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .destination-card {
+            width: 250px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .destination-card:hover {
+            transform: scale(1.05);
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .destination-card .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            color: #FF7E5F;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Footer */
+        .footer {
+            background: #FF7E5F;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .footer p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <h1>TravelSite</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Destinations</a>
+            <a href="#">Tours</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Discover Amazing Places</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Where do you want to go?">
+            <button>Search</button>
+        </div>
+    </section>
+
+    <!-- Popular Destinations Section -->
+    <section class="popular-section">
+        <h3>Popular Destinations</h3>
+        <div class="card-container" id="cardContainer">
+            <!-- Cards will be inserted dynamically -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 TravelSite. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample Data for Popular Destinations
+        const popularDestinations = [
+            { title: "Paris", description: "The City of Light", imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2hwUxUqDtsT4OrgaYtmOOKtyW4QiD1Kh9yA&s" },
+            { title: "Tokyo", description: "A city that never sleeps", imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3XJOvXGWuG-3wVb0orIKXxh1BSxIkQ-JDZw&s" },
+            { title: "Maldives", description: "Tropical paradise", imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSluquJNJvmtmr8ruxEatcqc_15x2EptTRWlA&s" },
+            { title: "New York", description: "The Big Apple", imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDw-z7Wa2VNfGGQT6sK3JGQGIgZWPKyBZ65g&s" },
+            { title: "Sydney", description: "Iconic Opera House", imgUrl: "https://www.flightgift.com/media/wp/FG/2024/07/Skincare-30th-birthday-gifts-for-her-3.webp" }
+        ];
+
+        // Function to load destination cards dynamically
+        function loadPopularDestinations() {
+            const container = document.getElementById("cardContainer");
+
+            popularDestinations.forEach(destination => {
+                const card = document.createElement("div");
+                card.classList.add("destination-card");
+                card.innerHTML = `
+                    <img src="${destination.imgUrl}" alt="${destination.title}">
+                    <div class="card-content">
+                        <h4 class="card-title">${destination.title}</h4>
+                        <p class="card-description">${destination.description}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Load destinations on page load
+        window.onload = loadPopularDestinations;
+    </script>
+</body>
+</html>
