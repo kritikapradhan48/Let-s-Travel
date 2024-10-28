@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet</title>
+</head>
+<body>
+    <h2>Wallet</h2>
+    <p>Balance: <span id="walletBalance">0.00</span></p>
+
+    <button onclick="checkBalance()">Check Balance</button>
+    <button onclick="addFunds()">Add Funds</button>
+    <button onclick="useFunds()">Use Funds</button>
+
+    <script>
+        const userId = 1; // Assume logged-in user ID
+
+        async function checkBalance() {
+            const response = await fetch(`/wallet/balance/${userId}`);
+            const data = await response.json();
+            if (data.wallet_balance !== undefined) {
+                document.getElementById("walletBalance").textContent = data.wallet_balance.toFixed(2);
+            } else {
+                alert(data.error);
+            }
+        }
+
+        async function addFunds() {
+            const amount = prompt("Enter amount to add:");
+            const response = await fetch('/wallet/add_funds', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, amount: parseFloat(amount) })
+            });
+            const data = await response.json();
+            alert(data.message);
+            checkBalance();
+        }
+
+        async function useFunds() {
+            const amount = prompt("Enter amount to use:");
+            const response = await fetch('/wallet/use_funds', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: userId, amount: parseFloat(amount) })
+            });
+            const data = await response.json();
+            alert(data.message);
+            checkBalance();
+        }
+    </script>
+</body>
+</html>
